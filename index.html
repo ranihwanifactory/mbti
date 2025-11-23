@@ -30,6 +30,10 @@
         background: #64748b; 
       }
     </style>
+    <script>
+      // Browser polyfill for process.env to prevent crashes in Vercel/static deployments if not replaced by bundler
+      window.process = window.process || { env: { NODE_ENV: 'production' } };
+    </script>
   <script type="importmap">
 {
   "imports": {
