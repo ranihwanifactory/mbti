@@ -1,5 +1,4 @@
 {
-  "name": "루미나 MBTI",
-  "description": "당신의 답변을 분석하여 심도 있고 개인화된 통찰력을 제공하는 AI 기반 MBTI 성격 유형 검사 도구입니다.",
-  "requestFramePermissions": []
+  "name": "Lumina MBTI",
+  "description": "An AI-powered MBTI personality assessment tool that analyzes your responses to generate deep, personalized insights into your psyche."
 }

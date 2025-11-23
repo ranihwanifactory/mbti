@@ -14,10 +14,9 @@ export const generatePersonalityAnalysis = async (result: MBTIResult): Promise<A
     Thinking: ${result.scores.T}, Feeling: ${result.scores.F}
     Judging: ${result.scores.J}, Perceiving: ${result.scores.P}
 
-    Generate a creative, insightful, and slightly mystical personality profile for this user in Korean (Hangul).
+    Generate a creative, insightful, and slightly mystical personality profile for this user.
     The tone should be professional yet engaging and warm.
     The 'spiritAnimal' should be a metaphor that fits their personality type well.
-    Please ensure all text fields in the JSON response are in Korean.
   `;
 
   try {
@@ -29,20 +28,20 @@ export const generatePersonalityAnalysis = async (result: MBTIResult): Promise<A
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            title: { type: Type.STRING, description: "A catchy title for this personality type in Korean (e.g. 전략가, 통찰력 있는 예언자)" },
-            summary: { type: Type.STRING, description: "A 2-3 sentence summary of their essence in Korean." },
+            title: { type: Type.STRING, description: "A catchy title for this personality type (e.g. The Architect, The Visionary)" },
+            summary: { type: Type.STRING, description: "A 2-3 sentence summary of their essence." },
             strengths: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "3 key strengths in Korean"
+              description: "3 key strengths"
             },
             weaknesses: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "3 potential blind spots in Korean"
+              description: "3 potential blind spots"
             },
-            careerPath: { type: Type.STRING, description: "A brief career suggestion or work style description in Korean." },
-            spiritAnimal: { type: Type.STRING, description: "A symbolic animal representing their nature in Korean." }
+            careerPath: { type: Type.STRING, description: "A brief career suggestion or work style description." },
+            spiritAnimal: { type: Type.STRING, description: "A symbolic animal representing their nature." }
           },
           required: ["title", "summary", "strengths", "weaknesses", "careerPath", "spiritAnimal"]
         }
@@ -58,12 +57,12 @@ export const generatePersonalityAnalysis = async (result: MBTIResult): Promise<A
     console.error("Gemini API Error:", error);
     // Fallback data in case of API failure or missing key
     return {
-      title: `${result.type} - 사색하는 분석가`,
-      summary: "당신은 복잡한 내면 세계를 가지고 있으며 주변의 시스템을 이해하려는 열망이 있습니다. AI 오라클과의 연결이 지연되었지만, 당신의 유형은 분석적이고 사려 깊은 성향을 나타냅니다.",
-      strengths: ["분석적 사고", "전략적 계획", "독립성"],
-      weaknesses: ["지나친 생각", "완벽주의", "고립감"],
-      careerPath: "전략 기획, 엔지니어링, 연구직 또는 학술 분야",
-      spiritAnimal: "부엉이"
+      title: `${result.type} - The Thinker`,
+      summary: "You have a complex inner world and a drive to understand the systems around you. While we couldn't reach the AI oracle for a custom reading, your type suggests you are analytical and thoughtful.",
+      strengths: ["Analytical", "Strategic", "Independent"],
+      weaknesses: ["Overthinking", "Perfectionism", "Isolated"],
+      careerPath: "Strategic Planning, Engineering, or Research",
+      spiritAnimal: "Owl"
     };
   }
 };

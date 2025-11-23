@@ -51,8 +51,8 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
     <div className="w-full max-w-3xl mx-auto flex flex-col h-[80vh] justify-center relative">
       {/* Progress Header */}
       <div className="absolute top-0 w-full flex items-center justify-between text-sm text-slate-400 mb-8 px-4">
-        <span>질문 {currentQuestionIndex + 1} / {QUESTIONS.length}</span>
-        <span>{Math.round(progress)}% 완료</span>
+        <span>Question {currentQuestionIndex + 1} / {QUESTIONS.length}</span>
+        <span>{Math.round(progress)}% Complete</span>
       </div>
       
       <div className="absolute top-8 left-0 w-full h-1 bg-slate-800 rounded-full overflow-hidden mx-4 max-w-[calc(100%-2rem)]">
@@ -79,7 +79,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
             <div className="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
                
-               <h2 className="text-2xl md:text-3xl font-medium text-white mb-10 text-center leading-snug break-keep">
+               <h2 className="text-2xl md:text-3xl font-medium text-white mb-10 text-center leading-snug">
                  {currentQuestion.text}
                </h2>
 
@@ -91,7 +91,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
                      className="group relative flex flex-col items-center justify-center p-6 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                    >
                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-purple-500/10 rounded-2xl transition-all duration-500" />
-                     <span className="text-lg text-slate-200 group-hover:text-white transition-colors relative z-10 font-light break-keep text-center">
+                     <span className="text-lg text-slate-200 group-hover:text-white transition-colors relative z-10 font-light">
                        {option.text}
                      </span>
                      <ChevronRight className="w-5 h-5 text-white/0 group-hover:text-white/50 absolute right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-[-10px] group-hover:translate-x-0" />

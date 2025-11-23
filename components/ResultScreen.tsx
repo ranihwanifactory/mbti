@@ -33,14 +33,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
   }, [result]);
 
   const chartData = [
-    { name: '외향형 (E)', value: result.scores.E, type: 'E', color: '#818cf8' },
-    { name: '내향형 (I)', value: result.scores.I, type: 'I', color: '#6366f1' },
-    { name: '감각형 (S)', value: result.scores.S, type: 'S', color: '#34d399' },
-    { name: '직관형 (N)', value: result.scores.N, type: 'N', color: '#10b981' },
-    { name: '사고형 (T)', value: result.scores.T, type: 'T', color: '#f472b6' },
-    { name: '감정형 (F)', value: result.scores.F, type: 'F', color: '#ec4899' },
-    { name: '판단형 (J)', value: result.scores.J, type: 'J', color: '#fbbf24' },
-    { name: '인식형 (P)', value: result.scores.P, type: 'P', color: '#f59e0b' },
+    { name: 'Extraversion', value: result.scores.E, type: 'E', color: '#818cf8' },
+    { name: 'Introversion', value: result.scores.I, type: 'I', color: '#6366f1' },
+    { name: 'Sensing', value: result.scores.S, type: 'S', color: '#34d399' },
+    { name: 'Intuition', value: result.scores.N, type: 'N', color: '#10b981' },
+    { name: 'Thinking', value: result.scores.T, type: 'T', color: '#f472b6' },
+    { name: 'Feeling', value: result.scores.F, type: 'F', color: '#ec4899' },
+    { name: 'Judging', value: result.scores.J, type: 'J', color: '#fbbf24' },
+    { name: 'Perceiving', value: result.scores.P, type: 'P', color: '#f59e0b' },
   ];
 
   if (loading) {
@@ -61,8 +61,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
             <BrainCircuit className="w-8 h-8 text-white/50 animate-pulse" />
           </div>
         </div>
-        <h2 className="text-2xl font-light text-white animate-pulse">오라클과 교신 중...</h2>
-        <p className="text-slate-400">Gemini AI가 당신의 성향을 분석하고 있습니다.</p>
+        <h2 className="text-2xl font-light text-white animate-pulse">Consulting the Oracle...</h2>
+        <p className="text-slate-400">Gemini is analyzing your dimensional coordinates.</p>
       </div>
     );
   }
@@ -86,7 +86,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
             
             <div className="relative z-10">
               <div className="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold tracking-wider mb-4 border border-indigo-500/30">
-                당신의 유형
+                ARCHETYPE REVEALED
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 tracking-tight">
                 {result.type}
@@ -94,7 +94,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
               <h2 className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-indigo-200 mb-6 font-medium">
                 {analysis.title}
               </h2>
-              <p className="text-lg text-slate-300 leading-relaxed mb-8 break-keep">
+              <p className="text-lg text-slate-300 leading-relaxed mb-8">
                 {analysis.summary}
               </p>
 
@@ -102,7 +102,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
                  <div className="bg-white/5 rounded-xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
                     <div className="flex items-center gap-2 mb-3 text-emerald-400">
                         <Activity className="w-5 h-5" />
-                        <h3 className="font-semibold">강점</h3>
+                        <h3 className="font-semibold">Strengths</h3>
                     </div>
                     <ul className="space-y-2">
                         {analysis.strengths.map((s, i) => (
@@ -116,7 +116,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
                  <div className="bg-white/5 rounded-xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
                     <div className="flex items-center gap-2 mb-3 text-rose-400">
                         <Compass className="w-5 h-5" />
-                        <h3 className="font-semibold">성장 포인트</h3>
+                        <h3 className="font-semibold">Growth Areas</h3>
                     </div>
                     <ul className="space-y-2">
                         {analysis.weaknesses.map((w, i) => (
@@ -134,14 +134,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
             <div className="bg-slate-800/60 backdrop-blur-md border border-white/10 rounded-2xl p-6">
                 <div className="flex items-center gap-2 mb-4 text-amber-300">
                     <Target className="w-5 h-5" />
-                    <h3 className="font-semibold uppercase tracking-wider text-sm">추천 진로</h3>
+                    <h3 className="font-semibold uppercase tracking-wider text-sm">Career Path</h3>
                 </div>
-                <p className="text-slate-300 text-sm leading-relaxed break-keep">{analysis.careerPath}</p>
+                <p className="text-slate-300 text-sm leading-relaxed">{analysis.careerPath}</p>
             </div>
             
             <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 flex items-center justify-between">
                 <div>
-                    <h3 className="text-purple-300 text-sm font-semibold uppercase tracking-wider mb-1">영혼의 동물</h3>
+                    <h3 className="text-purple-300 text-sm font-semibold uppercase tracking-wider mb-1">Spirit Animal</h3>
                     <p className="text-2xl text-white font-serif italic">{analysis.spiritAnimal}</p>
                 </div>
                 <div className="text-4xl opacity-50">✨</div>
@@ -152,7 +152,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
         {/* Sidebar / Stats */}
         <div className="lg:col-span-4 space-y-6">
            <div className="bg-slate-800/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-lg h-full flex flex-col">
-              <h3 className="text-white font-medium mb-6">성향 분석</h3>
+              <h3 className="text-white font-medium mb-6">Dimensional Balance</h3>
               <div className="flex-grow min-h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 30 }}>
@@ -185,11 +185,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onRetake }) 
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all hover:scale-105"
         >
             <RefreshCw className="w-4 h-4" />
-            <span>검사 다시하기</span>
+            <span>Retake Test</span>
         </button>
         <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-105">
             <Share2 className="w-4 h-4" />
-            <span>결과 공유하기</span>
+            <span>Share Result</span>
         </button>
       </motion.div>
     </div>

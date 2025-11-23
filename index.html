@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>루미나 MBTI</title>
+    <title>Lumina MBTI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       body {
-        font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+        font-family: 'Outfit', sans-serif;
         background-color: #0f172a; /* Slate 900 */
         color: #f8fafc;
-        word-break: keep-all; /* 한국어 줄바꿈 최적화 */
       }
       /* Custom scrollbar for webkit */
       ::-webkit-scrollbar {
@@ -30,21 +27,16 @@
         background: #64748b; 
       }
     </style>
-    <script>
-      // Browser polyfill for process.env to prevent crashes in Vercel/static deployments if not replaced by bundler
-      window.process = window.process || { env: { NODE_ENV: 'production' } };
-    </script>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.3.1",
-    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-    "@google/genai": "https://esm.sh/@google/genai",
-    "lucide-react": "https://esm.sh/lucide-react",
-    "framer-motion": "https://esm.sh/framer-motion",
-    "recharts": "https://esm.sh/recharts",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.0"
   }
 }
 </script>
@@ -52,6 +44,6 @@
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
