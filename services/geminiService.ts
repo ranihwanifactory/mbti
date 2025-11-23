@@ -1,18 +1,45 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { KeywordMetric, KeywordAnalysisResult, TrendDirection } from '../types';
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+// Use process.env.API_KEY directly as per instructions. 
+// We handle the case where it might be missing inside the functions to prevent app crash.
+const apiKey = process.env.API_KEY;
 
-// Helper to get random direction for simulation variance
-const getRandomDirection = () => {
-  const rand = Math.random();
-  if (rand > 0.6) return TrendDirection.UP;
-  if (rand < 0.3) return TrendDirection.DOWN;
-  return TrendDirection.STABLE;
+// Mock data generator for robust fallback
+const generateMockTrendingData = (): KeywordMetric[] => {
+  const keywords = [
+    "치지직", "아이폰16", "날씨", "삼성전자", "환율", 
+    "로또당첨번호", "비트코인", "손흥민", "넷플릭스", "유튜브"
+  ];
+  
+  return keywords.map((k, i) => {
+    const rank = i + 1;
+    // Simulate some movement
+    const prevRank = rank + Math.floor(Math.random() * 5) - 2; 
+    const change = prevRank - rank;
+    let trend = TrendDirection.STABLE;
+    if (change > 0) trend = TrendDirection.UP;
+    if (change < 0) trend = TrendDirection.DOWN;
+    
+    return {
+      keyword: k,
+      rank,
+      previousRank: prevRank > 0 ? prevRank : rank + 1,
+      searchVolume: Math.floor(Math.random() * 500000) + 50000,
+      competition: Math.random() > 0.6 ? 'High' : (Math.random() > 0.3 ? 'Medium' : 'Low'),
+      trend,
+      change: Math.abs(change)
+    };
+  });
 };
 
 export const fetchTrendingKeywords = async (): Promise<KeywordMetric[]> => {
+  if (!apiKey) {
+    console.warn("API Key missing, using mock data");
+    return new Promise(resolve => setTimeout(() => resolve(generateMockTrendingData()), 800));
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   const schema: Schema = {
     type: Type.ARRAY,
     items: {
@@ -31,17 +58,16 @@ export const fetchTrendingKeywords = async (): Promise<KeywordMetric[]> => {
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: "Generate a list of 10 currently trending keywords in South Korea suitable for a marketing dashboard. Include realistic (simulated) search volumes and ranks.",
+      contents: "Generate a list of 10 currently trending keywords in South Korea for a dashboard. Include realistic ranks and search volumes.",
       config: {
         responseMimeType: "application/json",
         responseSchema: schema,
-        systemInstruction: "You are a specialized SEO data engine. Provide realistic data for South Korean market trends.",
+        systemInstruction: "You are a real-time SEO data engine for Naver. Provide realistic, high-entropy data.",
       }
     });
 
     const rawData = JSON.parse(response.text || '[]');
     
-    // Enrich with calculated fields for UI
     return rawData.map((item: any) => {
         const change = item.previousRank - item.rank;
         let trend = TrendDirection.STABLE;
@@ -57,21 +83,33 @@ export const fetchTrendingKeywords = async (): Promise<KeywordMetric[]> => {
 
   } catch (error) {
     console.error("Gemini API Error:", error);
-    // Fallback data if API fails or key is missing
-    return [
-      { keyword: "날씨", rank: 1, previousRank: 2, searchVolume: 500000, competition: 'High', trend: TrendDirection.UP, change: 1 },
-      { keyword: "환율", rank: 2, previousRank: 1, searchVolume: 320000, competition: 'High', trend: TrendDirection.DOWN, change: 1 },
-      { keyword: "주식", rank: 3, previousRank: 3, searchVolume: 280000, competition: 'High', trend: TrendDirection.STABLE, change: 0 },
-    ];
+    return generateMockTrendingData();
   }
 };
 
 export const analyzeSpecificKeyword = async (keyword: string): Promise<KeywordAnalysisResult> => {
+  if (!apiKey) {
+      // Mock Analysis Data
+      return new Promise(resolve => setTimeout(() => resolve({
+          keyword,
+          difficultyScore: Math.floor(Math.random() * 40) + 40,
+          potentialScore: Math.floor(Math.random() * 50) + 40,
+          relatedKeywords: [`${keyword} 추천`, `${keyword} 가격`, `요즘 ${keyword}`, `${keyword} 순위`, "인기순위"],
+          seasonalTrend: [
+              { month: '1월', volume: 4000 }, { month: '2월', volume: 3500 },
+              { month: '3월', volume: 6000 }, { month: '4월', volume: 8200 },
+              { month: '5월', volume: 7500 }, { month: '6월', volume: 9000 }
+          ],
+          summary: `현재 '${keyword}' 키워드는 상승 추세에 있으며, 특히 30대 남성 층의 검색 유입이 활발합니다. 콘텐츠 발행 시 '가성비'와 '최신 트렌드'를 강조하는 것이 상위 노출에 유리할 것으로 분석됩니다. 경쟁 강도는 높으나 틈새 키워드 공략이 가능합니다.`
+      }), 1500));
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   const schema: Schema = {
     type: Type.OBJECT,
     properties: {
-      difficultyScore: { type: Type.INTEGER, description: "0 to 100 SEO difficulty" },
-      potentialScore: { type: Type.INTEGER, description: "0 to 100 growth potential" },
+      difficultyScore: { type: Type.INTEGER },
+      potentialScore: { type: Type.INTEGER },
       relatedKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
       seasonalTrend: {
           type: Type.ARRAY,
@@ -83,7 +121,7 @@ export const analyzeSpecificKeyword = async (keyword: string): Promise<KeywordAn
               }
           }
       },
-      summary: { type: Type.STRING, description: "Short strategic advice in Korean" }
+      summary: { type: Type.STRING }
     },
     required: ["difficultyScore", "potentialScore", "relatedKeywords", "seasonalTrend", "summary"]
   };
@@ -91,11 +129,11 @@ export const analyzeSpecificKeyword = async (keyword: string): Promise<KeywordAn
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: `Analyze the keyword '${keyword}' for the South Korean market.`,
+      contents: `Analyze the keyword '${keyword}' for Naver SEO.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: schema,
-        systemInstruction: "You are an expert SEO consultant. Analyze the keyword provided and generate simulated but realistic historical data and strategic advice.",
+        systemInstruction: "You are a top-tier SEO analyst for the Korean market. Provide strategic, actionable insights.",
       }
     });
 

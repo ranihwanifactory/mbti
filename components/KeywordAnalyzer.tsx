@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { analyzeSpecificKeyword } from '../services/geminiService';
 import { KeywordAnalysisResult } from '../types';
-import { Search, ArrowRight, CheckCircle2, AlertCircle, Zap, TrendingUp, Calendar } from 'lucide-react';
+import { Search, ArrowRight, CheckCircle2, AlertCircle, Zap, TrendingUp, Calendar, Target, Layers, Hash } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export const KeywordAnalyzer: React.FC = () => {
@@ -27,127 +27,161 @@ export const KeywordAnalyzer: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      {/* Search Input Area */}
-      <div className="bg-gradient-to-br from-green-900/40 to-slate-800 rounded-3xl p-8 border border-green-500/20 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
-        <h2 className="text-3xl font-bold text-white mb-4">키워드 심층 분석</h2>
-        <p className="text-slate-300 mb-8 max-w-lg mx-auto">
-          AI를 통해 키워드의 경쟁 강도, 예상 검색량, 그리고 연관 검색어를 분석하여 최적의 SEO 전략을 수립하세요.
-        </p>
+    <div className="max-w-[1400px] mx-auto space-y-10 pb-12">
+      {/* Search Hero Section */}
+      <div className="relative rounded-3xl overflow-hidden min-h-[300px] flex items-center justify-center">
+         {/* Background Elements */}
+         <div className="absolute inset-0 bg-slate-900 border border-slate-800 shadow-2xl rounded-3xl"></div>
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-emerald-500/10 blur-[100px] rounded-full"></div>
 
-        <form onSubmit={handleAnalyze} className="relative max-w-xl mx-auto">
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="분석할 키워드를 입력하세요 (예: 맛집, 캠핑)"
-            className="w-full pl-6 pr-14 py-4 bg-slate-900/80 border border-slate-600 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-xl transition-all"
-          />
-          <button 
-            type="submit"
-            disabled={loading}
-            className="absolute right-2 top-2 p-2.5 bg-green-500 hover:bg-green-600 text-slate-900 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? <div className="w-5 h-5 border-2 border-slate-900 border-t-transparent rounded-full animate-spin" /> : <ArrowRight className="w-5 h-5" />}
-          </button>
-        </form>
+         <div className="relative z-10 w-full max-w-2xl px-6 text-center">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-emerald-400 text-xs font-medium mb-6">
+                <Zap className="w-3 h-3 mr-1.5" /> AI-Powered Deep Analysis
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+              Master the <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Algorithm</span>
+            </h2>
+            <p className="text-slate-400 mb-10 text-lg">
+              Unlock hidden opportunities with keyword intelligence powered by Gemini.
+            </p>
+
+            <form onSubmit={handleAnalyze} className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative flex items-center bg-slate-900 rounded-2xl p-2 border border-slate-700 shadow-2xl">
+                    <Search className="w-6 h-6 text-slate-500 ml-4" />
+                    <input
+                        type="text"
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        placeholder="Enter keyword (e.g., Summer Fashion, iPhone 16)"
+                        className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-slate-500 px-4 py-3 text-lg"
+                    />
+                    <button 
+                        type="submit"
+                        disabled={loading}
+                        className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold rounded-xl transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        {loading ? 'Analyzing...' : <>Analyze <ArrowRight className="w-4 h-4" /></>}
+                    </button>
+                </div>
+            </form>
+         </div>
       </div>
 
       {loading && (
-          <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center p-4 bg-slate-800 rounded-full mb-4 animate-pulse">
-                <Search className="w-8 h-8 text-green-500" />
+          <div className="flex flex-col items-center justify-center py-20 animate-fade-in">
+              <div className="w-16 h-16 relative">
+                  <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+                  <div className="absolute inset-0 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin"></div>
+                  <div className="absolute inset-4 rounded-full bg-emerald-500/20 animate-pulse"></div>
               </div>
-              <p className="text-slate-400">Gemini AI가 키워드 데이터를 분석 중입니다...</p>
+              <p className="mt-6 text-slate-400 font-medium">Gathering market intelligence...</p>
           </div>
       )}
 
       {result && (
         <div className="space-y-6 animate-fade-in-up">
-            {/* Score Cards */}
+            <div className="flex items-end gap-4 mb-2 px-2">
+                <h3 className="text-3xl font-bold text-white">Analysis: <span className="text-emerald-400">{result.keyword}</span></h3>
+                <span className="text-slate-500 pb-1.5 text-sm">Generated by Gemini 2.5 Flash</span>
+            </div>
+
+            {/* Top Score Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ScoreCard 
-                    title="SEO 난이도" 
+                <RadialScoreCard 
+                    title="Keyword Difficulty" 
                     score={result.difficultyScore} 
-                    description="상위 노출 진입 장벽"
+                    description="Competition Level"
                     color="red"
+                    icon={<Target className="w-5 h-5" />}
                 />
-                <ScoreCard 
-                    title="성장 잠재력" 
+                <RadialScoreCard 
+                    title="Growth Potential" 
                     score={result.potentialScore} 
-                    description="향후 트래픽 증가 예상치"
+                    description="Projected Traffic"
                     color="green"
+                    icon={<TrendingUp className="w-5 h-5" />}
                 />
             </div>
 
-            {/* Chart and Details */}
+            {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 bg-slate-800 rounded-2xl p-6 border border-slate-700">
-                    <h3 className="text-lg font-bold text-white mb-6 flex items-center">
-                        <Calendar className="w-5 h-5 mr-2 text-blue-400" />
-                        계절성 트렌드 (예상)
+                {/* Chart Section */}
+                <div className="lg:col-span-2 glass-card rounded-2xl p-8 border-0">
+                    <h3 className="text-lg font-bold text-white mb-8 flex items-center">
+                        <Calendar className="w-5 h-5 mr-3 text-blue-400" />
+                        Seasonal Search Volume Trend
                     </h3>
-                    <div className="h-[250px]">
+                    <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={result.seasonalTrend}>
+                            <AreaChart data={result.seasonalTrend} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                                        <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3}/>
+                                        <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
-                                <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                                <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} dy={10} />
                                 <YAxis hide />
                                 <Tooltip 
-                                    contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', color: '#fff' }}
-                                    itemStyle={{ color: '#60a5fa' }}
+                                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#fff', borderRadius: '12px' }}
+                                    itemStyle={{ color: '#38bdf8' }}
                                 />
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" opacity={0.5} />
-                                <Area type="monotone" dataKey="volume" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorVolume)" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" opacity={0.3} />
+                                <Area type="monotone" dataKey="volume" stroke="#0ea5e9" strokeWidth={3} fillOpacity={1} fill="url(#colorVolume)" />
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
-                    <div className="mt-4 p-4 bg-slate-700/30 rounded-xl border border-slate-700">
-                        <h4 className="text-sm font-semibold text-slate-300 mb-2 flex items-center">
-                            <Zap className="w-4 h-4 text-yellow-400 mr-2" />
-                            AI 전략 조언
-                        </h4>
-                        <p className="text-sm text-slate-400 leading-relaxed">
-                            {result.summary}
-                        </p>
-                    </div>
                 </div>
 
-                <div className="bg-slate-800 rounded-2xl p-6 border border-slate-700">
-                    <h3 className="text-lg font-bold text-white mb-4">연관 키워드</h3>
-                    <div className="flex flex-wrap gap-2">
+                {/* Related Keywords & Tags */}
+                <div className="glass-card rounded-2xl p-8 border-0 flex flex-col">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center">
+                        <Hash className="w-5 h-5 mr-2 text-purple-400" />
+                        Related Keywords
+                    </h3>
+                    <div className="flex flex-wrap gap-2 content-start flex-1">
                         {result.relatedKeywords.map((tag, i) => (
-                            <span key={i} className="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 hover:border-green-500 hover:text-green-500 transition-colors cursor-pointer">
-                                # {tag}
+                            <span key={i} className="px-3 py-1.5 bg-slate-800/50 border border-slate-700/50 rounded-lg text-sm text-slate-300 hover:bg-emerald-500/10 hover:border-emerald-500/50 hover:text-emerald-400 transition-all cursor-pointer">
+                                #{tag}
                             </span>
                         ))}
                     </div>
                     
-                    <div className="mt-8 pt-6 border-t border-slate-700">
-                         <h4 className="text-sm font-semibold text-slate-400 mb-4">플랫폼별 분석 (Beta)</h4>
-                         <div className="space-y-3">
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-slate-300">Blog View</span>
-                                <span className="text-green-400 font-medium">Very High</span>
-                            </div>
-                            <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                                <div className="bg-green-500 h-full w-[85%]"></div>
-                            </div>
+                    <div className="mt-8">
+                        <h4 className="text-sm font-semibold text-slate-400 mb-4 flex items-center">
+                             <Layers className="w-4 h-4 mr-2" />
+                             Platform Intent
+                        </h4>
+                        <div className="space-y-4">
+                             <PlatformBar label="Informational (Blog)" value={85} color="bg-emerald-500" />
+                             <PlatformBar label="Commercial (Shopping)" value={45} color="bg-blue-500" />
+                        </div>
+                    </div>
+                </div>
 
-                            <div className="flex justify-between items-center text-sm mt-2">
-                                <span className="text-slate-300">Shopping</span>
-                                <span className="text-yellow-400 font-medium">Medium</span>
+                {/* AI Insight Terminal */}
+                <div className="lg:col-span-3">
+                    <div className="bg-[#0f172a] rounded-2xl border border-slate-800 p-1 shadow-2xl">
+                        <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-800/50">
+                            <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-4">
+                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span className="ml-2 text-xs font-mono text-slate-500">gemini-analyst — v2.5-flash</span>
                             </div>
-                            <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                                <div className="bg-yellow-400 h-full w-[50%]"></div>
+                            <div className="font-mono text-sm leading-relaxed text-slate-300">
+                                <span className="text-emerald-500 mr-2">➜</span>
+                                <span className="text-blue-400">~ analysis</span> <br/>
+                                <p className="mt-2 whitespace-pre-wrap pl-6 border-l-2 border-slate-800">
+                                    {result.summary}
+                                </p>
+                                <div className="mt-4 pl-6">
+                                    <span className="animate-pulse inline-block w-2 h-4 bg-emerald-500/50"></span>
+                                </div>
                             </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,32 +191,64 @@ export const KeywordAnalyzer: React.FC = () => {
   );
 };
 
-const ScoreCard = ({ title, score, description, color }: any) => {
+const PlatformBar = ({ label, value, color }: { label: string, value: number, color: string }) => (
+    <div>
+        <div className="flex justify-between items-center text-xs mb-1.5">
+            <span className="text-slate-400">{label}</span>
+            <span className="text-white font-medium">{value}%</span>
+        </div>
+        <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div className={`h-full ${color} rounded-full`} style={{ width: `${value}%` }}></div>
+        </div>
+    </div>
+);
+
+const RadialScoreCard = ({ title, score, description, color, icon }: any) => {
+    // Calculate circumference
+    const radius = 38;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (score / 100) * circumference;
     const isGreen = color === 'green';
+    const strokeColor = isGreen ? '#10b981' : '#f43f5e';
+
     return (
-        <div className="bg-slate-800 rounded-2xl p-6 border border-slate-700 flex items-center gap-6">
-            <div className="relative w-20 h-20 flex-shrink-0">
+        <div className="glass-card rounded-2xl p-6 flex items-center gap-8 relative overflow-hidden">
+            {/* Background decoration */}
+            <div className={`absolute -right-10 -bottom-10 w-32 h-32 rounded-full ${isGreen ? 'bg-emerald-500' : 'bg-red-500'} blur-[60px] opacity-10`}></div>
+
+            <div className="relative w-24 h-24 flex-shrink-0">
                 <svg className="w-full h-full transform -rotate-90">
-                    <circle cx="40" cy="40" r="36" className="stroke-slate-700" strokeWidth="8" fill="transparent" />
                     <circle 
-                        cx="40" cy="40" r="36" 
-                        className={isGreen ? "stroke-green-500" : "stroke-red-500"} 
+                        cx="48" cy="48" r={radius} 
+                        className="stroke-slate-800" 
                         strokeWidth="8" 
                         fill="transparent" 
-                        strokeDasharray={226}
-                        strokeDashoffset={226 - (226 * score) / 100}
+                    />
+                    <circle 
+                        cx="48" cy="48" r={radius} 
+                        stroke={strokeColor}
+                        strokeWidth="8" 
+                        fill="transparent" 
+                        strokeDasharray={circumference}
+                        strokeDashoffset={offset}
                         strokeLinecap="round"
+                        className="transition-all duration-1000 ease-out"
                     />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xl font-bold text-white">{score}</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-bold text-white">{score}</span>
                 </div>
             </div>
-            <div>
-                <h3 className="text-lg font-bold text-white">{title}</h3>
+            <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-1">
+                    <div className={`p-1.5 rounded-lg ${isGreen ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                        {icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-white">{title}</h3>
+                </div>
                 <p className="text-sm text-slate-400 mb-2">{description}</p>
-                <div className={`text-xs px-2 py-1 rounded inline-block font-semibold ${isGreen ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                    {score > 70 ? (isGreen ? '매우 좋음' : '매우 어려움') : score > 40 ? '보통' : (isGreen ? '낮음' : '쉬움')}
+                <div className={`text-xs px-2 py-0.5 rounded inline-block font-semibold border ${isGreen ? 'bg-emerald-950 border-emerald-500/30 text-emerald-400' : 'bg-red-950 border-red-500/30 text-red-400'}`}>
+                    {score > 70 ? (isGreen ? 'High Potential' : 'Very Hard') : score > 40 ? 'Moderate' : (isGreen ? 'Low Potential' : 'Easy')}
                 </div>
             </div>
         </div>
